@@ -1,89 +1,48 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-16 14:06:23
+ * @LastEditTime : 2021-01-16 20:53:52
  * @Description  : 
  * @FilePath     : \PTAbasic\1005.cpp
  */
 
 #include <iostream>
-#include <algorithm> 
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-void getChain(size_t number, vector<size_t> chain)
-{
-    chain.push_back(number);
-
-    while (number - 1)
-    {
-        if (number & 1)
-        {
-            number = 3 * number + 1;
-        }
-        else
-        {
-            number /= 2;
-        }
-        chain.push_back(number);
-        }
-
-    return;
-}
-
-bool check(size_t num, vector<size_t> chain)
-{
-    vector<size_t>::iterator it;
-    it = find(chain.begin(), chain.end(), num);
-    if (it != chain.end())
-        return true;
-    else
-        return false;
-}
+int arr[10000];
+bool cmp(int a, int b) { return a > b; }
 
 int main()
 {
-    size_t num;
-    vector<size_t> numbers(100,0);
-    vector<vector<size_t>> curr;
-
-    cin >> num;
-    for (size_t i = 0; i < num; i++)
+    int k, n, flag = 0;
+    cin >> k;
+    vector<int> v(k);
+    for (int i = 0; i < k; i++)
     {
-        cin >> numbers[i];
-    }
-
-    vector<size_t> tmp1(100,0);
-    getChain(numbers[0], tmp1);
-    curr.push_back(tmp1);
-    for (size_t i = 1; i < num; i++)
-    {
-        for (size_t j = 0; j < sizeof(curr); j++)
+        cin >> n;
+        v[i] = n;
+        while (n != 1)
         {
-            if (check(numbers[i],curr[j]))
-            {
-                ;
-            }else
-            {
-                vector<size_t> tmp2(100,0);
-                getChain(numbers[i], tmp2);
-                if (check(curr[j][0],tmp2))
-                {
-                    curr[j] = tmp2;
-                }else
-                {
-                    curr.push_back(tmp2);
-                }
-            }
+            if (n & 1)  //Odd
+                n = 3 * n + 1;
+            n = n / 2;
+            if (arr[n] == 1)
+                break;
+            arr[n] = 1;
         }
     }
-
-    for (size_t i = 0; i < sizeof(curr); i++)
+    sort(v.begin(), v.end(), cmp);
+    for (size_t i = 0; i < v.size(); i++)
     {
-        cout << curr[i][0] << ' ';
+        if (arr[v[i]] == 0)
+        {
+            if (flag == 1)
+                cout << " ";
+            cout << v[i];
+            flag = 1;
+        }
     }
-    
-    
-
     return 0;
 }
