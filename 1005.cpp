@@ -1,7 +1,7 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-16 20:53:52
+ * @LastEditTime : 2021-01-16 21:00:52
  * @Description  : 
  * @FilePath     : \PTAbasic\1005.cpp
  */
@@ -10,6 +10,10 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
+
+// 对于 0~9999 ，如果数x验证过，则arr[x]=1 
+// 保存所有验证过的数，排序后arr[x]=0的是关键数。
+// 即先求并集，再求补
 
 int arr[10000];
 bool cmp(int a, int b) { return a > b; }
