@@ -1,60 +1,89 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-16 13:37:11
+ * @LastEditTime : 2021-01-16 14:06:23
  * @Description  : 
  * @FilePath     : \PTAbasic\1005.cpp
  */
 
 #include <iostream>
+#include <algorithm> 
+#include <vector>
 using namespace std;
 
-size_t getChain(size_t number, size_t *ans)
+void getChain(size_t number, vector<size_t> chain)
 {
-    size_t length = 0;
-    *ans = number;
-    ans++;
-    length++;
-    
-    while (number-1)
+    chain.push_back(number);
+
+    while (number - 1)
     {
         if (number & 1)
         {
             number = 3 * number + 1;
-        }else
+        }
+        else
         {
             number /= 2;
         }
+        chain.push_back(number);
+        }
 
-        *ans = number;
-        ans++;
-        length++;
-    }
+    return;
+}
 
-    return length;
+bool check(size_t num, vector<size_t> chain)
+{
+    vector<size_t>::iterator it;
+    it = find(chain.begin(), chain.end(), num);
+    if (it != chain.end())
+        return true;
+    else
+        return false;
 }
 
 int main()
 {
     size_t num;
-    size_t numbers[100];
+    vector<size_t> numbers(100,0);
+    vector<vector<size_t>> curr;
+
     cin >> num;
     for (size_t i = 0; i < num; i++)
     {
         cin >> numbers[i];
     }
 
-    size_t tmp[100]{};
-    size_t len;
-    for (size_t i = 0; i < num; i++)
+    vector<size_t> tmp1(100,0);
+    getChain(numbers[0], tmp1);
+    curr.push_back(tmp1);
+    for (size_t i = 1; i < num; i++)
     {
-        len=getChain(numbers[i], tmp);
-        for (size_t j = 0; j < len; j++)
+        for (size_t j = 0; j < sizeof(curr); j++)
         {
-            cout << tmp[j] << ' ';
+            if (check(numbers[i],curr[j]))
+            {
+                ;
+            }else
+            {
+                vector<size_t> tmp2(100,0);
+                getChain(numbers[i], tmp2);
+                if (check(curr[j][0],tmp2))
+                {
+                    curr[j] = tmp2;
+                }else
+                {
+                    curr.push_back(tmp2);
+                }
+            }
         }
-        cout << endl;
+    }
+
+    for (size_t i = 0; i < sizeof(curr); i++)
+    {
+        cout << curr[i][0] << ' ';
     }
     
+    
+
     return 0;
 }
