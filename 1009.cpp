@@ -1,7 +1,7 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-17 11:25:22
+ * @LastEditTime : 2021-01-17 11:40:58
  * @Description  : 
  * @FilePath     : /PTAbasic/1009.cpp
  */
@@ -23,7 +23,7 @@ int main()
     save.pop();
     while (!save.empty())
     {
-        cout << save.top();
+        cout << " " << save.top();
         save.pop();
     }
     return 0;
