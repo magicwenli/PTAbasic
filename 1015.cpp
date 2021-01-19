@@ -1,7 +1,7 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-19 14:23:22
+ * @LastEditTime : 2021-01-19 14:29:24
  * @Description  : 
  * @FilePath     : /PTAbasic/1015.cpp
  */
@@ -28,27 +28,17 @@ struct candidates
 bool sortByType(candidates cda, candidates cdb)
 {
     if (cda.type < cdb.type)
-    {
         return true;
-    }
     else if (cda.type == cdb.type)
-    {
         if (cda.total_score == cdb.total_score)
-        {
             if (cda.morality == cdb.morality)
                 return cda.id < cdb.id;
             else
                 return cda.morality > cdb.morality;
-        }
         else
-        {
             return cda.total_score > cdb.total_score;
-        }
-    }
     else
-    {
         return false;
-    }
 }
 
 int main()
