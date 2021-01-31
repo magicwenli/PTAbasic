@@ -1,9 +1,9 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-01-16 13:23:58
+ * @LastEditTime : 2021-01-31 21:02:11
  * @Description  : 
- * @FilePath     : \PTAbasic\100.cpp
+ * @FilePath     : /PTAbasic/100.cpp
  */
 
 #include <iostream>
