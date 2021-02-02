@@ -5,9 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: 当前文件",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "WSL g++.exe",
             "type": "cppdbg",
-            "request": "launch",//请求配置类型，可以为launch（启动）或attach（附加）
+            "request": "launch", //请求配置类型，可以为launch（启动）或attach（附加）
             "program": "${fileDirname}/debug/${fileBasenameNoExtension}.o",
             "args": [],
             "stopAtEntry": false,
@@ -28,7 +35,7 @@
         {
             "name": "g++.exe - 生成和调试活动文件",
             "type": "cppdbg",
-            "request": "launch",//请求配置类型，可以为launch（启动）或attach（附加）
+            "request": "launch", //请求配置类型，可以为launch（启动）或attach（附加）
             "program": "${fileDirname}\\debug\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
