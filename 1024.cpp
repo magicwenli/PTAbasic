@@ -1,7 +1,7 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-02-02 23:48:50
+ * @LastEditTime : 2021-02-03 00:10:44
  * @Description  : 
  * @FilePath     : /PTAbasic/1024.cpp
  */
@@ -36,7 +36,7 @@ int main()
     else
         sign = "-";
     size_t sizeOfBAD = baseAfterDot.size();
-    size_t valueOfIndex = atoi(index.c_str());
+    size_t valueOfIndex = stoi(index);
     if (result.str(4) == "-")
     {
         if (valueOfIndex == 0)
@@ -61,25 +61,23 @@ int main()
         }
         else
         {
-            cout << sign;
-            if (sizeOfBAD > valueOfIndex)
+            cout << sign << baseBeforeDot;
+            size_t i, cnt;
+            for (i = 0, cnt = 0; i < sizeOfBAD && cnt < valueOfIndex; i++, cnt++)
             {
-                if(baseBeforeDot!="0")
-                    cout << baseBeforeDot;
-                for (size_t i = 0; i < sizeOfBAD; i++)
-                {
-                    if (i == valueOfIndex)
-                        cout << ".";
+                if (baseBeforeDot != "0" || baseAfterDot[i] != '0')
                     cout << baseAfterDot[i];
-                }
+            }
+            if (i == sizeOfBAD)
+            {
+                for (size_t j = 0; j < valueOfIndex - cnt; j++)
+                    cout << '0';
             }
             else
             {
-                cout << baseAfterDot;
-                for (size_t i = 0; i < valueOfIndex - sizeOfBAD; i++)
-                {
-                    cout << "0";
-                }
+                cout << ".";
+                for (size_t j = i; j < sizeOfBAD; j++)
+                    cout << baseAfterDot[j];
             }
         }
     }
