@@ -1,63 +1,94 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-02-04 20:02:58
- * @Description  : 
- * @FilePath     : /PTAbasic/1028.cpp
+ * @LastEditTime : 2021-02-04 20:46:50
+ * @Description  : 1028 人口普查 (20 分)
+ * @FilePath     : /PTAbasic/1029.cpp
  */
 
 #include <iostream>
-using namespace std;
-int getLeft(int num, int &level)
-{
-    int left = 0;
-    level = 1;
+#include <vector>
+#include <algorithm>
 
-    for (int i = 1; i < num + 1; i++)
+// 注意有效人口可能为0，此时不输出姓名
+
+using namespace std;
+
+constexpr int MIN_YEAR = 1814;
+constexpr int MIN_MON = 9;
+constexpr int MIN_DAY = 6;
+constexpr int MAX_YEAR = 2014;
+constexpr int MAX_MON = 9;
+constexpr int MAX_DAY = 6;
+
+struct Person
+{
+    string name;
+    int year;
+    int mon;
+    int day;
+};
+
+bool isValid(Person &p)
+{
+    if (p.year < MIN_YEAR)
+        return false;
+    else if (p.year == MIN_YEAR && p.mon < MIN_MON)
+        return false;
+    else if (p.year == MIN_YEAR && p.mon == MIN_MON && p.day < MIN_DAY)
+        return false;
+    else
     {
-        if (2 * i * i - 1 > num) // total = 2*i^2-1
-        {
-            break;
-        }
-        left = num - 2 * i * i + 1;
-        level = i;
+        if (p.year > MAX_YEAR)
+            return false;
+        else if (p.year == MAX_YEAR && p.mon > MAX_MON)
+            return false;
+        else if (p.year == MAX_YEAR && p.mon == MAX_MON && p.day > MAX_DAY)
+            return false;
     }
-    return left;
+    return true;
 }
 
-void printSign(int times, char &sign)
+bool compare(Person &a, Person &b)
 {
-    for (int i = 0; i < times; i++)
-    {
-        cout << sign;
-    }
+    if (a.year < b.year)
+        return true;
+    else if (a.year == b.year && a.mon < b.mon)
+        return true;
+    else if (a.year == b.year && a.mon == b.mon && a.day < b.day)
+        return true;
+    else
+        return false;
 }
 
 int main()
 {
-    int num, level, left;
-    int cnt = 0; //counter for blank char
-    char sign, blank = ' ';
-    cin >> num >> sign;
-    left = getLeft(num, level);
-    for (int i = 1; i < 2 * level - 1 + 1; i++)
-    {
-        printSign(cnt, blank);
-        if (i < level)
-        {
-            printSign(2 * (level - i + 1) - 1, sign);
-            cnt++;
-        }
-        else
-        {
-            printSign(2 * (i - level + 1) - 1, sign);
-            cnt--;
-        }
-        // printSign(cnt, blank); //右边不输出
+    vector<Person> ps;
+    Person tmp;
+    string n;
+    int y, m, d;
+    int num;
+    char slash;
 
-        cout << endl;
+    cin >> num;
+    for (int i = 0; i < num; i++)
+    {
+        cin >> n >> y >> slash >> m >> slash >> d;
+        tmp.name = n;
+        tmp.year = y;
+        tmp.mon = m;
+        tmp.day = d;
+        if (isValid(tmp))
+        {
+            ps.push_back(tmp);
+        }
     }
-    cout << left;
+    sort(ps.begin(), ps.end(), compare);
+    
+    if (ps.size() > 0)
+        cout << ps.size() << " " << (*ps.begin()).name << " " << (*(ps.end() - 1)).name;
+    else
+        cout << 0;
 
     return 0;
 }
