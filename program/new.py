@@ -12,21 +12,22 @@
 import os
 import re
 
+
 def main():
     cwd = os.getcwd()
-    start = 1001
+    start_default = 1001
     list = []
 
     for f in os.listdir(cwd):
         if re.match("1[0-9]{3}.cpp", f) != None:
             list.append(f[:-4])
-    while (str(start) in list):
-        start += 1
+    while (str(start_default) in list):
+        start_default += 1
 
     markdown = '# PTA Basic\n\n'
     acc_num = 0
     table = '| label | title                    | score | status |\n|-------|--------------------------|-------|--------|\n'
-    
+
     with open('../info/mark.md', 'r', encoding='UTF-8') as info:
         line = info.readline()
         line = info.readline()
@@ -41,13 +42,17 @@ def main():
     markdown += table
     with open('../README.md', 'w', encoding='UTF-8') as file:
         file.write(markdown)
-    
-    
+
     # Generation Part
+    start = input("Please input the name of the next file(default:{}):".format(
+        str(start_default)))
+    if start == '':
+        start = start_default
     cmd = "cp 100.cpp "+str(start)+".cpp"
     if (not os.system(cmd)):
-        print("Creation success. File name:\n" + cwd + "/" + str(start) + ".cpp.")
-        opencmd="code "+ cwd + "/" + str(start) + ".cpp"
+        print("Creation success. File name:\n" +
+              cwd + "/" + str(start) + ".cpp.")
+        opencmd = "code " + cwd + "/" + str(start) + ".cpp"
         os.system(opencmd)
     else:
         print("Creation failed.")

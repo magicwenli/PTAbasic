@@ -7,8 +7,6 @@
 #  FilePath     : \bili_uploader\spider.py
 #
 
-# https://api.bilibili.com/x/space/arc/search?mid=197384948&ps=30&tid=0&pn=1&keyword=&order=pubdate&jsonp=jsonp
-
 import requests
 import re
 import json
