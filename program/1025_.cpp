@@ -1,63 +1,58 @@
 /*
  * @Author       : magicwenli
  * @Date         : 2021-01-16 11:16:21
- * @LastEditTime : 2021-02-03 15:29:07
+ * @LastEditTime : 2021-03-28 10:34:17
  * @Description  : 1025 反转链表 (25 分)
- * @FilePath     : /PTAbasic/1025.cpp
+ * @FilePath     : /PTAbasic/program/1025_.cpp
  */
 
 #include <iostream>
 using namespace std;
 constexpr int MAXSIZE = 100010;
-struct ListNode
-{
+struct ListNode {
     int data;
     ListNode *next;
-    ListNode *pre;
 };
 
-ListNode *flap(int start, int length, ListNode *head)
-{
-    ListNode *it, *curr, *next;
-    int cnt = 0;
-    while (cnt < start)
-    {
-        head = head->next;
-        cnt++;
+// 迭代反转法 http://c.biancheng.net/view/8105.html
+ListNode *reverse(ListNode *head, ListNode *next_head) {
+    // 判断链表是否为空
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    } else {
+        ListNode *beg = next_head;
+        ListNode *mid = head;
+        ListNode *end = head->next;
+        while (1) {
+            mid->next = beg;
+            if (end == next_head) {
+                break;
+            }
+            beg = mid;
+            mid = end;
+            end = end->next;
+        }
+        head = mid;
+        return head;
     }
-
-    it = head; //遍历 确定节点pre指针地址
-    while (it->next!=nullptr)
-    {
-        curr = it;
-        it = it->next;
-        it->pre = curr;
-        // cout << "xxxx..Address: " << it << ",Data: " << (*it).data << ",Next: " << (*it).next << ",Pre: " << (*it).pre <<endl;
-    }
-    cnt = 0; //遍历 将指向上一个的指针和指向下一个的指针互换
-    it = head;
-    while (cnt++ < length)
-    {
-        next = it->next;
-        it->next = it->pre;
-        it->pre = next;
-        it = next;
-    }
-    head->next = it;
-    ListNode *newhead = it->pre; //将头指针改为原来的尾指针
-    return newhead;
 }
 
-int main()
-{
+ListNode *NextN(ListNode *head, int n) {
+    ListNode *new_head = head;
+    for (int i = 0; i < n; i++) {
+        new_head = new_head->next;
+    }
+    return new_head;
+}
+
+int main() {
     ListNode *base;
     base = (ListNode *)malloc(MAXSIZE * sizeof(ListNode));
 
     int start, length, K;
     int address, data, next;
     cin >> start >> length >> K;
-    for (int i = 0; i < length; i++)
-    {
+    for (int i = 0; i < length; i++) {
         ListNode *nextNode, *self;
         cin >> address >> data >> next;
         self = base + address;
@@ -67,18 +62,21 @@ int main()
             nextNode = base + next;
         (*self).data = data;
         (*self).next = nextNode;
-        // cout << "......Address: " << self << ",Data: " << (*self).data << ",Next: " << (*self).next << ",Pre: " << (*self).pre <<endl;
+        // cout << "......Address: " << self << ",Data: " << (*self).data <<
+        // ",Next: " << (*self).next << ",Pre: " << (*self).pre <<endl;
     }
 
     ListNode *head = base + start;
-
-    for (int i = 0; i < (length - (length % 4)); i += K)
-    {
-        head = flap(i, K, head);
+    ListNode *new_head;
+    for (int i = 0; i < (length - (length % K)); i += K) {
+        ListNode *beg_head = NextN(head, i);
+        ListNode *next_head = NextN(beg_head, K);
+        new_head=reverse(beg_head, next_head);
     }
 
-    while (head->next != nullptr)
-    {
+    head = new_head;
+
+    while (head->next != nullptr) {
         int adr = head - base;
         int nextAdr = head->next - base;
         printf("%05d %d %05d\n", adr, head->data, nextAdr);
